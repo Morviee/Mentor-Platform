@@ -31,8 +31,8 @@ export default function AboutPage() {
         <header className="relative h-80 bg-gradient-to-r from-[#be123c] to-[#f43f5e] overflow-hidden">
           <div className="absolute bottom-0 left-0 w-full h-16 bg-[#f8fafc] skew-y-[-1deg] transform origin-bottom-right translate-y-8"></div>
           <div className="container mx-auto px-4 h-full flex flex-col justify-center items-center text-center">
-            <h1 className="text-4xl md:text-6xl font-bold text-white relative z-10 mb-4">About Our Platform</h1>
-            <p className="text-lg md:text-xl text-white relative z-10 max-w-2xl">
+            <h1 className="text-4xl md:text-6xl font-bold text-black relative z-10 mb-4">About Our Platform</h1>
+            <p className="text-lg md:text-xl text-black relative z-10 max-w-2xl">
               Building bridges between tech professionals through vibrant communities and meaningful connections.
             </p>
           </div>
@@ -43,30 +43,30 @@ export default function AboutPage() {
           <section className="mb-20">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
               <div>
-                <h2 className="text-3xl font-bold mb-6 inline-block relative">
+                <h2 className="text-3xl font-bold mb-6 inline-block relative text-black">
                   Our Mission & Vision
                   <div className="absolute bottom-0 left-0 w-full h-2 bg-[#be123c]"></div>
                 </h2>
-                <p className="text-lg mb-6">
+                <p className="text-lg mb-6 text-black">
                   We're on a mission to create the most vibrant, inclusive, and valuable tech communities in the world.
                   We believe that knowledge sharing and collaboration are the foundations of innovation and growth in
                   the tech industry.
                 </p>
-                <p className="text-lg mb-6">
+                <p className="text-lg mb-6 text-black">
                   Our vision is a world where every tech professional has access to supportive communities that
                   accelerate their learning, career growth, and ability to create meaningful impact through technology.
                 </p>
                 <div className="flex flex-wrap gap-4">
-                  <Badge className="bg-[#be123c] text-white border-2 border-black px-4 py-2 text-base">
+                  <Badge className="bg-[#f4d7dc] text-black border-2 border-black px-4 py-2 text-base">
                     <Heart className="w-4 h-4 mr-2" /> Inclusive
                   </Badge>
-                  <Badge className="bg-[#f43f5e] text-white border-2 border-black px-4 py-2 text-base">
+                  <Badge className="bg-[#f4d7dc] text-black border-2 border-black px-4 py-2 text-base">
                     <Lightbulb className="w-4 h-4 mr-2" /> Innovative
                   </Badge>
-                  <Badge className="bg-[#9f1239] text-white border-2 border-black px-4 py-2 text-base">
+                  <Badge className="bg-[#f4d7dc] text-black border-2 border-black px-4 py-2 text-base">
                     <Globe className="w-4 h-4 mr-2" /> Global
                   </Badge>
-                  <Badge className="bg-[#fbbf24] text-black border-2 border-black px-4 py-2 text-base">
+                  <Badge className="bg-[#f4d7dc] text-black border-2 border-black px-4 py-2 text-base">
                     <Shield className="w-4 h-4 mr-2" /> Trusted
                   </Badge>
                 </div>
@@ -93,29 +93,29 @@ export default function AboutPage() {
                   <div className="w-16 h-16 bg-[#be123c] border-2 border-black rounded-full flex items-center justify-center mx-auto mb-4">
                     <Users className="w-8 h-8 text-white" />
                   </div>
-                  <h3 className="text-4xl font-bold mb-2">250K+</h3>
+                  <h3 className="text-4xl font-bold mb-2 text-black">250K+</h3>
                   <p className="text-lg font-medium">Active Members</p>
                 </div>
                 <div className="bg-white border-2 border-black p-6 rounded-lg shadow-[4px_4px_0px_0px_rgba(0,0,0,0.8)] text-center">
                   <div className="w-16 h-16 bg-[#f43f5e] border-2 border-black rounded-full flex items-center justify-center mx-auto mb-4">
                     <MessageSquare className="w-8 h-8 text-white" />
                   </div>
-                  <h3 className="text-4xl font-bold mb-2">1.2M+</h3>
-                  <p className="text-lg font-medium">Discussions</p>
+                  <h3 className="text-4xl font-bold mb-2 text-black">1.2M+</h3>
+                  <p className="text-lg font-medium text-black">Discussions</p>
                 </div>
                 <div className="bg-white border-2 border-black p-6 rounded-lg shadow-[4px_4px_0px_0px_rgba(0,0,0,0.8)] text-center">
                   <div className="w-16 h-16 bg-[#fbbf24] border-2 border-black rounded-full flex items-center justify-center mx-auto mb-4">
                     <Calendar className="w-8 h-8 text-black" />
                   </div>
-                  <h3 className="text-4xl font-bold mb-2">5K+</h3>
-                  <p className="text-lg font-medium">Events Hosted</p>
+                  <h3 className="text-4xl font-bold mb-2 text-black">5K+</h3>
+                  <p className="text-lg font-medium text-black">Events Hosted</p>
                 </div>
                 <div className="bg-white border-2 border-black p-6 rounded-lg shadow-[4px_4px_0px_0px_rgba(0,0,0,0.8)] text-center">
                   <div className="w-16 h-16 bg-[#be123c] border-2 border-black rounded-full flex items-center justify-center mx-auto mb-4">
                     <Award className="w-8 h-8 text-white" />
                   </div>
-                  <h3 className="text-4xl font-bold mb-2">120+</h3>
-                  <p className="text-lg font-medium">Tech Communities</p>
+                  <h3 className="text-4xl font-bold mb-2 text-black">120+</h3>
+                  <p className="text-lg font-medium text-black">Tech Communities</p>
                 </div>
               </div>
             </div>
@@ -123,7 +123,7 @@ export default function AboutPage() {
 
           {/* Our Story */}
           <section className="mb-20">
-            <h2 className="text-3xl font-bold mb-10 text-center inline-block relative">
+            <h2 className="text-3xl font-bold mb-10 text-center inline-block relative text-black">
               Our Story
               <div className="absolute bottom-0 left-0 w-full h-2 bg-[#f43f5e]"></div>
             </h2>
@@ -138,9 +138,9 @@ export default function AboutPage() {
                 <div className="flex flex-col md:flex-row items-center">
                   <div className="md:w-1/2 md:pr-12 md:text-right mb-6 md:mb-0">
                     <div className="bg-white border-3 border-black p-6 rounded-lg shadow-[5px_5px_0px_0px_rgba(0,0,0,0.8)] inline-block">
-                      <h3 className="text-2xl font-bold mb-2">2018</h3>
-                      <h4 className="text-xl font-semibold mb-3">The Beginning</h4>
-                      <p className="text-base">
+                      <h3 className="text-2xl font-bold mb-2 text-black">2018</h3>
+                      <h4 className="text-xl font-semibold mb-3 text-black">The Beginning</h4>
+                      <p className="text-base text-black">
                         Started as a small forum for web developers to share knowledge and solve problems together. Our
                         founder, Alex Chen, created the platform after struggling to find supportive communities for
                         developers transitioning into new technologies.
@@ -161,9 +161,9 @@ export default function AboutPage() {
                   </div>
                   <div className="md:w-1/2 md:pl-12 md:text-left mb-6 md:mb-0">
                     <div className="bg-white border-3 border-black p-6 rounded-lg shadow-[5px_5px_0px_0px_rgba(0,0,0,0.8)] inline-block">
-                      <h3 className="text-2xl font-bold mb-2">2020</h3>
-                      <h4 className="text-xl font-semibold mb-3">Expansion & Growth</h4>
-                      <p className="text-base">
+                      <h3 className="text-2xl font-bold mb-2 text-black">2020</h3>
+                      <h4 className="text-xl font-semibold mb-3 text-black">Expansion & Growth</h4>
+                      <p className="text-base text-black">
                         Expanded to support multiple tech communities beyond web development. Introduced virtual events
                         during the pandemic, connecting tech professionals worldwide when in-person networking wasn't
                         possible.
@@ -176,9 +176,9 @@ export default function AboutPage() {
                 <div className="flex flex-col md:flex-row items-center">
                   <div className="md:w-1/2 md:pr-12 md:text-right mb-6 md:mb-0">
                     <div className="bg-white border-3 border-black p-6 rounded-lg shadow-[5px_5px_0px_0px_rgba(0,0,0,0.8)] inline-block">
-                      <h3 className="text-2xl font-bold mb-2">2022</h3>
-                      <h4 className="text-xl font-semibold mb-3">Community-Led Evolution</h4>
-                      <p className="text-base">
+                      <h3 className="text-2xl font-bold mb-2 text-black">2022</h3>
+                      <h4 className="text-xl font-semibold mb-3 text-black">Community-Led Evolution</h4>
+                      <p className="text-base text-black">
                         Transitioned to a community-led model where experienced members could create and moderate their
                         own specialized communities. Launched our mentorship program connecting industry veterans with
                         newcomers.
@@ -199,9 +199,9 @@ export default function AboutPage() {
                   </div>
                   <div className="md:w-1/2 md:pl-12 md:text-left">
                     <div className="bg-white border-3 border-black p-6 rounded-lg shadow-[5px_5px_0px_0px_rgba(0,0,0,0.8)] inline-block">
-                      <h3 className="text-2xl font-bold mb-2">2024</h3>
-                      <h4 className="text-xl font-semibold mb-3">Today & Beyond</h4>
-                      <p className="text-base">
+                      <h3 className="text-2xl font-bold mb-2 text-black">2024</h3>
+                      <h4 className="text-xl font-semibold mb-3 text-black">Today & Beyond</h4>
+                      <p className="text-base text-black">
                         Now one of the largest tech community platforms with specialized groups for every technology
                         stack and role. Continuing to innovate with AI-powered matching to connect members with the most
                         relevant communities for their interests and career goals.
@@ -215,7 +215,7 @@ export default function AboutPage() {
 
           {/* Meet the Team */}
           <section className="mb-20">
-            <h2 className="text-3xl font-bold mb-10 text-center inline-block relative">
+            <h2 className="text-3xl font-bold mb-10 text-center inline-block relative text-black">
               Meet Our Team
               <div className="absolute bottom-0 left-0 w-full h-2 bg-[#9f1239]"></div>
             </h2>
@@ -232,8 +232,8 @@ export default function AboutPage() {
                   />
                 </div>
                 <div className="p-5">
-                  <h3 className="text-xl font-bold mb-1">Alex Chen</h3>
-                  <p className="text-gray-700 mb-3">Founder & CEO</p>
+                  <h3 className="text-xl font-bold mb-1 text-black">Alex Chen</h3>
+                  <p className=" mb-3 text-black">Founder & CEO</p>
                   <p className="text-sm mb-4">
                     Former software engineer with a passion for community building. Alex founded the platform to create
                     the supportive environment he wished he had early in his career.
@@ -256,9 +256,9 @@ export default function AboutPage() {
                   />
                 </div>
                 <div className="p-5">
-                  <h3 className="text-xl font-bold mb-1">Maya Rodriguez</h3>
+                  <h3 className="text-xl font-bold mb-1 text-black">Maya Rodriguez</h3>
                   <p className="text-gray-700 mb-3">CTO</p>
-                  <p className="text-sm mb-4">
+                  <p className="text-sm mb-4 text-black">
                     Full-stack developer turned technology leader. Maya oversees our platform architecture and ensures
                     we're using the right technologies to support our growing communities.
                   </p>
@@ -280,9 +280,9 @@ export default function AboutPage() {
                   />
                 </div>
                 <div className="p-5">
-                  <h3 className="text-xl font-bold mb-1">David Kim</h3>
-                  <p className="text-gray-700 mb-3">Head of Community</p>
-                  <p className="text-sm mb-4">
+                  <h3 className="text-xl font-bold mb-1 text-black">David Kim</h3>
+                  <p className=" mb-3 text-black">Head of Community</p>
+                  <p className="text-sm mb-4 text-black">
                     Community management expert with experience at major tech companies. David ensures our communities
                     remain healthy, engaging, and valuable for all members.
                   </p>
@@ -337,7 +337,7 @@ export default function AboutPage() {
                     1
                   </div>
                   <h3 className="text-xl font-bold mb-4 pt-2">Discover Communities</h3>
-                  <p className="mb-4">
+                  <p className="mb-4 text-black">
                     Browse our diverse range of tech communities based on your interests, skills, and career goals. Use
                     filters to find the perfect match.
                   </p>

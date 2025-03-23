@@ -31,43 +31,10 @@ export default function LandingPage() {
           <div className="absolute bottom-0 left-0 w-full h-16 bg-[#f8fafc] skew-y-[-1deg] transform origin-bottom-right translate-y-8"></div>
 
           {/* Navigation */}
-          <nav className="container mx-auto px-4 py-6">
-            <div className="flex justify-between items-center">
-              <div className="flex items-center">
-                <div className="bg-white border-3 border-black rounded-full h-10 w-10 flex items-center justify-center shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] mr-3">
-                  <Sparkles className="h-5 w-5 text-[#be123c]" />
-                </div>
-                <span className="text-white font-bold text-xl">MentorHer</span>
-              </div>
-
-              <div className="hidden md:flex space-x-6 text-white">
-                <Link href="#" className="font-medium hover:underline">
-                  How It Works
-                </Link>
-                <Link href="#" className="font-medium hover:underline">
-                  Browse Mentors
-                </Link>
-                <Link href="#" className="font-medium hover:underline">
-                  Community
-                </Link>
-                <Link href="#" className="font-medium hover:underline">
-                  Resources
-                </Link>
-              </div>
-
-              <div className="flex space-x-3">
-                <Button className="bg-white text-[#be123c] font-semibold border-2 border-black rounded shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] hover:translate-y-0.5 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] transition-all">
-                  Log In
-                </Button>
-                <Button className="bg-[#9f1239] text-white font-semibold border-2 border-black rounded shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] hover:translate-y-0.5 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] transition-all">
-                  Sign Up
-                </Button>
-              </div>
-            </div>
-          </nav>
+            
 
           {/* Hero Section */}
-          <div className="container mx-auto px-4 h-[calc(100%-80px)] flex items-center">
+          <div className="container mx-30 px-4 h-[calc(100%-80px)] flex items-center">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
               <div className="relative z-10">
                 <Badge className="bg-white text-[#be123c] border-2 border-black mb-4 text-sm px-4 py-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)]">
@@ -102,9 +69,9 @@ export default function LandingPage() {
                 </div>
 
                 <div className="mt-8 flex items-center">
-                  <div className="flex -space-x-4">
+                  <div className="flex -space-x-2">
                     {[1, 2, 3, 4].map((i) => (
-                      <div key={i} className="w-10 h-10 rounded-full border-2 border-white overflow-hidden">
+                      <div key={i} className="w-8 h-8 rounded-full border-2 border-white overflow-hidden ml-3">
                         <Image
                           src={`/placeholder.svg?height=100&width=100&text=${i}`}
                           alt={`User ${i}`}
@@ -127,15 +94,16 @@ export default function LandingPage() {
                 <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-[#f43f5e] rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
 
                 <div className="relative">
-                  <div className="bg-white border-3 border-black rounded-lg shadow-[8px_8px_0px_0px_rgba(0,0,0,0.8)] overflow-hidden">
-                    <Image
-                      src="/placeholder.svg?height=600&width=500&text=Mentorship"
-                      alt="Women in mentorship"
-                      width={500}
-                      height={600}
-                      className="object-cover"
-                    />
-                  </div>
+                <div className="bg-white mx-2 ml-6 md:ml-12 border-3 border-black rounded-lg shadow-[8px_8px_0px_0px_rgba(0,0,0,0.8)] overflow-hidden">
+                <Image
+                  src="/placeholder.svg?height=600&width=500&text=Mentorship"
+                  alt="Women in mentorship"
+                  width={300}
+                  height={500}
+                  className="object-cover"
+                />
+              </div>
+
 
                   <div className="absolute -bottom-6 -left-6 bg-white border-3 border-black rounded-lg p-4 shadow-[5px_5px_0px_0px_rgba(0,0,0,0.8)]">
                     <div className="flex items-center">
@@ -145,7 +113,7 @@ export default function LandingPage() {
                       <Star className="h-5 w-5 text-[#f43f5e] fill-[#f43f5e]" />
                       <Star className="h-5 w-5 text-[#f43f5e] fill-[#f43f5e]" />
                     </div>
-                    <p className="font-medium mt-1">"Found my dream mentor in just 3 days!"</p>
+                    <p className="font-medium mt-1 text-black">"Found my dream mentor in just 3 days!"</p>
                   </div>
                 </div>
               </div>
@@ -185,7 +153,7 @@ export default function LandingPage() {
                 <Badge className="bg-[#f43f5e] text-white border-2 border-black mb-4 text-sm px-4 py-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)]">
                   Simple Process
                 </Badge>
-                <h2 className="text-4xl font-bold mb-4">How MentorHer Works</h2>
+                <h2 className="text-4xl font-bold mb-4 text-black">How MentorHer Works</h2>
                 <p className="text-xl text-gray-600 max-w-2xl mx-auto">
                   Our platform makes it easy to find the perfect mentor and start your journey to success.
                 </p>
@@ -199,7 +167,7 @@ export default function LandingPage() {
                   <div className="h-40 bg-[#f8fafc] border-2 border-black rounded-lg mb-4 flex items-center justify-center">
                     <Search className="h-16 w-16 text-[#be123c]" />
                   </div>
-                  <h3 className="text-xl font-bold mb-2">Find Your Mentor</h3>
+                  <h3 className="text-xl font-bold mb-2 text-black">Find Your Mentor</h3>
                   <p className="text-gray-600">
                     Browse our diverse community of experienced mentors and filter by industry, expertise, and
                     availability.
@@ -213,7 +181,7 @@ export default function LandingPage() {
                   <div className="h-40 bg-[#f8fafc] border-2 border-black rounded-lg mb-4 flex items-center justify-center">
                     <MessageSquare className="h-16 w-16 text-[#f43f5e]" />
                   </div>
-                  <h3 className="text-xl font-bold mb-2">Connect & Schedule</h3>
+                  <h3 className="text-xl font-bold mb-2 text-black">Connect & Schedule</h3>
                   <p className="text-gray-600">
                     Reach out to mentors, discuss your goals, and schedule one-on-one sessions that fit your calendar.
                   </p>
@@ -226,7 +194,7 @@ export default function LandingPage() {
                   <div className="h-40 bg-[#f8fafc] border-2 border-black rounded-lg mb-4 flex items-center justify-center">
                     <TrendingUp className="h-16 w-16 text-[#9f1239]" />
                   </div>
-                  <h3 className="text-xl font-bold mb-2">Grow & Succeed</h3>
+                  <h3 className="text-xl font-bold mb-2 text-black">Grow & Succeed</h3>
                   <p className="text-gray-600">
                     Learn from your mentor's experience, implement their advice, and track your progress over time.
                   </p>
@@ -261,7 +229,7 @@ export default function LandingPage() {
                     <Users className="h-6 w-6 text-[#be123c]" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold mb-2">Women-Focused Community</h3>
+                    <h3 className="text-xl font-bold mb-2 text-black">Women-Focused Community</h3>
                     <p className="text-gray-600">
                       Connect with a supportive network of women who understand your unique challenges and are committed
                       to helping you succeed.
@@ -274,7 +242,7 @@ export default function LandingPage() {
                     <CheckCircle2 className="h-6 w-6 text-[#be123c]" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold mb-2">Verified Mentors</h3>
+                    <h3 className="text-xl font-bold mb-2 text-black">Verified Mentors</h3>
                     <p className="text-gray-600">
                       All our mentors go through a thorough verification process to ensure you're connecting with
                       qualified professionals.
@@ -287,7 +255,7 @@ export default function LandingPage() {
                     <Calendar className="h-6 w-6 text-[#be123c]" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold mb-2">Flexible Scheduling</h3>
+                    <h3 className="text-xl font-bold mb-2 text-black">Flexible Scheduling</h3>
                     <p className="text-gray-600">
                       Book sessions that fit your busy schedule, with options for early morning, evening, and weekend
                       availability.
@@ -300,7 +268,7 @@ export default function LandingPage() {
                     <MessageSquare className="h-6 w-6 text-[#be123c]" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold mb-2">Discussion Forums</h3>
+                    <h3 className="text-xl font-bold mb-2 text-black">Discussion Forums</h3>
                     <p className="text-gray-600">
                       Participate in topic-specific forums to ask questions, share experiences, and learn from the
                       collective wisdom of our community.
@@ -318,14 +286,14 @@ export default function LandingPage() {
                 <Badge className="bg-[#be123c] text-white border-2 border-black mb-4 text-sm px-4 py-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)]">
                   Meet Our Experts
                 </Badge>
-                <h2 className="text-4xl font-bold mb-4">Featured Mentors</h2>
+                <h2 className="text-4xl font-bold mb-4 text-black">Featured Mentors</h2>
                 <p className="text-xl text-gray-600 max-w-2xl mx-auto">
                   Learn from accomplished women who are leaders in their fields and passionate about helping others
                   succeed.
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-black">
                 {[
                   {
                     name: "Sarah Johnson",
@@ -402,13 +370,13 @@ export default function LandingPage() {
                 <Badge className="bg-[#f43f5e] text-white border-2 border-black mb-4 text-sm px-4 py-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)]">
                   Success Stories
                 </Badge>
-                <h2 className="text-4xl font-bold mb-4">What Our Members Say</h2>
+                <h2 className="text-4xl font-bold mb-4 text-black">What Our Members Say</h2>
                 <p className="text-xl text-gray-600 max-w-2xl mx-auto">
                   Hear from women who have transformed their careers with the help of MentorHer.
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-black">
                 {[
                   {
                     quote:
@@ -476,7 +444,7 @@ export default function LandingPage() {
                 </p>
 
                 <div className="bg-white border-3 border-black rounded-lg p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.8)]">
-                  <h3 className="text-2xl font-bold mb-4">Sign Up for Early Access</h3>
+                  <h3 className="text-2xl font-bold mb-4 text-black">Sign Up for Early Access</h3>
                   <p className="text-gray-600 mb-6">
                     Be among the first to connect with our exclusive network of mentors.
                   </p>
@@ -522,14 +490,14 @@ export default function LandingPage() {
                 <Badge className="bg-[#be123c] text-white border-2 border-black mb-4 text-sm px-4 py-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)]">
                   Community
                 </Badge>
-                <h2 className="text-4xl font-bold mb-4">Join the Conversation</h2>
+                <h2 className="text-4xl font-bold mb-4 text-black">Join the Conversation</h2>
                 <p className="text-xl text-gray-600 max-w-2xl mx-auto">
                   Participate in discussions, share your experiences, and learn from other women in our vibrant
                   community.
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-black">
                 {[
                   {
                     title: "Leadership Circle",
