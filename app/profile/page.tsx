@@ -1,85 +1,124 @@
-"use client"
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Upload } from "lucide-react";
-import Navbar from "../components/Navbar";
+"use client";
 
-export default function ProfilePage() {
-  const [profile, setProfile] = useState({
-    fullName: "",
-    email: "",
-    bio: "",
-    skills: "",
-    interests: "",
-    education: "",
-    idUpload: null as File | null,
-    profilePicture: null as File | null,
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+
+const studentSchema = z.object({
+  fullName: z.string().min(1, "Full name is required"),
+  email: z.string().email("Invalid email address"),
+  age: z.number({ invalid_type_error: "Age must be a number" }).min(18, "You must be at least 18 years old"),
+  course: z.string().min(1, "Course is required"),
+});
+
+type StudentFormData = z.infer<typeof studentSchema>;
+
+const ProfilePage = () => {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<StudentFormData>({
+    resolver: zodResolver(studentSchema),
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setProfile((prev) => ({ ...prev, [name]: value }));
-  };
+  const onSubmit = async (data: StudentFormData) => {
+    setLoading(true);
+    try {
+      const response = await fetch("http://localhost:5000/api/students", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setProfile((prev) => ({ ...prev, [e.target.name]: e.target.files![0] }));
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to create student.");
+      }
+
+      const result = await response.json();
+      router.push(`/profile/${result.data._id}`);
+    } catch (error: any) {
+      alert(error.message || "An unexpected error occurred.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <>
-    <Navbar/>
-    <div className="flex min-h-screen items-center justify-center bg-white px-4">
-        
-      <div className="w-full max-w-lg p-8 bg-white rounded-2xl shadow-xl border-2 border-black text-center">
-        <h2 className="text-3xl font-extrabold text-[#be123c]">Create Your Profile</h2>
-        <p className="text-gray-600 mt-2">Showcase your skills and interests</p>
+    <div className="min-h-screen bg-[#f8fafc] flex items-center justify-center">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="bg-white p-6 rounded-lg shadow-md w-full max-w-md"
+      >
+        <h1 className="text-2xl font-bold mb-4">Student Profile</h1>
 
-        <form className="mt-6 space-y-4">
-          {/* Profile Picture Upload */}
-          <div className="flex flex-col items-center">
-            <label className="w-24 h-24 flex items-center justify-center bg-gray-200 rounded-full border-2 border-dashed border-black cursor-pointer overflow-hidden">
-              {profile.profilePicture instanceof File ? (
-                <img
-                  src={URL.createObjectURL(profile.profilePicture)}
-                  alt="Profile"
-                  className="w-24 h-24 object-cover rounded-full"
-                />
-              ) : (
-                <Upload className="text-gray-600" />
-              )}
-              <input type="file" name="profilePicture" className="hidden" onChange={handleFileChange} />
-            </label>
-          </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-1">Full Name</label>
+          <Input
+            type="text"
+            {...register("fullName")}
+            placeholder="Enter your full name"
+            disabled={loading}
+          />
+          {errors.fullName && (
+            <p className="text-red-500 text-sm mt-1">{errors.fullName.message}</p>
+          )}
+        </div>
 
-          <Input type="text" name="fullName" placeholder="Full Name" className="w-full p-3 border rounded-lg focus:ring-[#be123c] focus:border-[#be123c]" onChange={handleChange} />
-          <Input type="email" name="email" placeholder="Email" className="w-full p-3 border rounded-lg focus:ring-[#be123c] focus:border-[#be123c]" onChange={handleChange} />
-          <Textarea name="bio" placeholder="Tell us about yourself" className="w-full p-3 border rounded-lg focus:ring-[#be123c] focus:border-[#be123c]" onChange={handleChange} />
-          <Input type="text" name="skills" placeholder="Skills (e.g., JavaScript, Design)" className="w-full p-3 border rounded-lg focus:ring-[#be123c] focus:border-[#be123c]" onChange={handleChange} />
-          <Input type="text" name="interests" placeholder="Interests (e.g., AI, Web Development)" className="w-full p-3 border rounded-lg focus:ring-[#be123c] focus:border-[#be123c]" onChange={handleChange} />
-          <Input type="text" name="education" placeholder="Education (e.g., Bachelor's in CS)" className="w-full p-3 border rounded-lg focus:ring-[#be123c] focus:border-[#be123c]" onChange={handleChange} />
-          
-          {/* ID Upload */}
-          <div className="flex flex-col items-center">
-            <label className="w-full p-3 flex items-center justify-center bg-gray-200 rounded-lg border-2 border-dashed border-black cursor-pointer">
-              {profile.idUpload instanceof File ? (
-                <span className="text-gray-600">{profile.idUpload.name}</span>
-              ) : (
-                <span className="text-gray-600">Upload ID</span>
-              )}
-              <input type="file" name="idUpload" className="hidden" onChange={handleFileChange} />
-            </label>
-          </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-1">Email</label>
+          <Input
+            type="email"
+            {...register("email")}
+            placeholder="Enter your email"
+            disabled={loading}
+          />
+          {errors.email && (
+            <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+          )}
+        </div>
 
-          <Button className="w-full bg-[#be123c] text-white py-3 rounded-lg border-2 border-black shadow-lg hover:bg-[#9f0f34] transition">
-            Save Profile
-          </Button>
-        </form>
-      </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-1">Age</label>
+          <Input
+            type="number"
+            {...register("age", { valueAsNumber: true })}
+            placeholder="Enter your age"
+            disabled={loading}
+          />
+          {errors.age && (
+            <p className="text-red-500 text-sm mt-1">{errors.age.message}</p>
+          )}
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-1">Course</label>
+          <Input
+            type="text"
+            {...register("course")}
+            placeholder="Enter your course"
+            disabled={loading}
+          />
+          {errors.course && (
+            <p className="text-red-500 text-sm mt-1">{errors.course.message}</p>
+          )}
+        </div>
+
+        <Button type="submit" className="w-full bg-[#9f1239] text-white" disabled={loading}>
+          {loading ? "Submitting..." : "Submit"}
+        </Button>
+      </form>
     </div>
-    </>
   );
-}
+};
+
+export default ProfilePage;

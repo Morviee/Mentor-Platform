@@ -225,10 +225,10 @@ export default function MentorsPage() {
             </p>
           </div> */}
           <div className="flex flex-col items-center justify-center text-center h-[100px] md:h-[400px] pt-10">
-            <h1 className="text-4xl md:text-5xl font-bold text-black relative z-10 mb-2 ">
+            <h1 className="text-6xl md:text-5xl font-bold text-white relative z-10 mb-2 ">
                 Find Your Perfect Mentor
             </h1>
-            <p className="text-lg md:text-xl relative z-10 max-w-2xl text-black">
+            <p className="text-lg md:text-xl relative z-10 max-w-2xl text-white">
                 Connect with experienced professionals who can guide you on your journey to success.
             </p>
             </div>

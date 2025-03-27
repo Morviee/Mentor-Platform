@@ -60,12 +60,16 @@ export default function LandingPage() {
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4">
+                <Link href="/mentors" passHref>
                   <Button className="bg-white text-[#be123c] font-semibold border-3 border-black rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0,0.8)] hover:translate-y-0.5 hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] transition-all text-lg px-8 py-6">
                     Find a Mentor <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
+                </Link>
+                <Link href="/mentor/mentor-form" passHref>
                   <Button className="bg-transparent text-white font-semibold border-3 border-white rounded-md hover:bg-white/10 transition-all text-lg px-8 py-6">
                     Become a Mentor
                   </Button>
+                  </Link>
                 </div>
 
                 <div className="mt-8 flex items-center">
@@ -123,7 +127,7 @@ export default function LandingPage() {
 
         <main>
           {/* Stats Section */}
-          <section className="py-16">
+          {/* <section className="py-16">
             <div className="container mx-auto px-4">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                 <div className="bg-white border-3 border-black rounded-lg p-6 shadow-[5px_5px_0px_0px_rgba(0,0,0,0.8)] text-center">
@@ -144,7 +148,7 @@ export default function LandingPage() {
                 </div>
               </div>
             </div>
-          </section>
+          </section> */}
 
           {/* How It Works */}
           <section className="py-16 bg-[#f8fafc]">
@@ -202,9 +206,11 @@ export default function LandingPage() {
               </div>
 
               <div className="mt-12 text-center">
+              <Link href="/mentors" passHref>
                 <Button className="bg-[#be123c] text-white font-semibold border-3 border-black rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0,0.8)] hover:translate-y-0.5 hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] transition-all text-lg px-8 py-6">
                   Start Your Journey Today
                 </Button>
+                </Link>
               </div>
             </div>
           </section>
@@ -356,9 +362,11 @@ export default function LandingPage() {
               </div>
 
               <div className="mt-12 text-center">
+              <Link href="/mentors" passHref>
                 <Button className="bg-white text-[#be123c] font-semibold border-3 border-black rounded-md shadow-[5px_5px_0px_0px_rgba(0,0,0,0.8)] hover:translate-y-0.5 hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] transition-all text-lg px-8 py-4">
                   Browse All Mentors <ChevronRight className="ml-2 h-5 w-5" />
                 </Button>
+                </Link>
               </div>
             </div>
           </section>

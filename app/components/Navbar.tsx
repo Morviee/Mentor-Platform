@@ -34,14 +34,24 @@ export default function Navbar() {
             </Button>
 
             {/* Notifications */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="rounded-full text-black hover:bg-[#fecdd3] hover:text-[#be123c] relative"
-            >
+            <Button variant="ghost" size="icon" className="rounded-full text-black hover:bg-[#fecdd3] hover:text-[#be123c] relative">
               <Bell className="h-5 w-5 text-black" />
               <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-[#be123c]"></span>
             </Button>
+
+            {/* Sign Up & Log In Buttons */}
+            <div className="hidden md:flex space-x-4">
+              <a href="/auth">
+              <Button className="bg-[#be123c] text-white px-6 py-2 rounded-lg border-2 border-black shadow-lg hover:bg-[#9f0f34] transition">
+                  Log In
+                </Button>
+              </a>
+              <a href="/authb">
+                <Button className="bg-[#be123c] text-white px-6 py-2 rounded-lg border-2 border-black shadow-lg hover:bg-[#9f0f34] transition">
+                  Sign Up
+                </Button>
+              </a>
+            </div>
           </div>
         </div>
       </div>

@@ -1,320 +1,287 @@
-"use client"
+"use client";
 
-import Image from "next/image"
-import { Github, Linkedin, Mail, MapPin, Twitter } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { ThemeProvider } from "../components/theme-provider"
-import Navbar from "../components/Navbar"
+import React, { useState } from "react";
+import { useForm, useFieldArray } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
-export default function MentorProfile() {
+const mentorSchema = z.object({
+  fullName: z.string().min(1, "Full name is required"),
+  professionalTitle: z.string().min(1, "Professional title is required"),
+  location: z.string().optional(),
+  bio: z.string().min(1, "Bio is required"),
+  profileImage: z.string().optional(),
+  resumeFile: z.string().optional(),
+  experiences: z
+    .array(
+      z.object({
+        title: z.string().min(1, "Title is required"),
+        company: z.string().min(1, "Company is required"),
+        startDate: z.string().min(1, "Start date is required"),
+        endDate: z.string().optional(),
+        description: z.string().optional(),
+      })
+    )
+    .optional(),
+  educations: z
+    .array(
+      z.object({
+        degree: z.string().min(1, "Degree is required"),
+        institution: z.string().min(1, "Institution is required"),
+        startDate: z.string().min(1, "Start date is required"),
+        endDate: z.string().optional(),
+        description: z.string().optional(),
+      })
+    )
+    .optional(),
+  techStack: z
+    .object({
+      frontend: z.array(z.string()).optional(),
+      backend: z.array(z.string()).optional(),
+      database: z.array(z.string()).optional(),
+      devops: z.array(z.string()).optional(),
+    })
+    .optional(),
+  mentorshipAreas: z
+    .object({
+      career: z.array(z.string()).optional(),
+      technical: z.array(z.string()).optional(),
+      project: z.array(z.string()).optional(),
+      soft: z.array(z.string()).optional(),
+    })
+    .optional(),
+  socialLinks: z.object({
+    github: z.string().optional(),
+    linkedin: z.string().optional(),
+    twitter: z.string().optional(),
+    email: z.string().email("Invalid email address"),
+  }),
+});
+
+type MentorFormData = z.infer<typeof mentorSchema>;
+
+const MentorPage = () => {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<MentorFormData>({
+    resolver: zodResolver(mentorSchema),
+  });
+
+  const { fields: experienceFields, append: addExperience } = useFieldArray({
+    control,
+    name: "experiences",
+  });
+
+  const { fields: educationFields, append: addEducation } = useFieldArray({
+    control,
+    name: "educations",
+  });
+
+  const onSubmit = async (data: MentorFormData) => {
+    setLoading(true);
+    try {
+      const response = await fetch("http://localhost:5000/api/mentors", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to create mentor.");
+      }
+
+      const result = await response.json();
+      router.push(`/mentor/${result.data._id}`);
+    } catch (error: any) {
+      alert(error.message || "An unexpected error occurred.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <ThemeProvider>
-      <div className="min-h-screen bg-[#f8fafc]">
-        {/* Header */}
-        <Navbar/>
-        <header className="relative h-64 bg-gradient-to-r from-[#be123c] to-[#f43f5e] overflow-hidden">
-          <div className="absolute bottom-0 left-0 w-full h-16 bg-[#f8fafc] skew-y-[-1deg] transform origin-bottom-right translate-y-8"></div>
-          <div className="container mx-auto px-4 h-full flex flex-col justify-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-white relative z-10 mb-4">Sarah Johnson</h1>
-            <p className="text-lg md:text-xl text-white relative z-10 max-w-2xl">
-              Professional developer and mentor helping others level up their skills and careers
-            </p>
-          </div>
-        </header>
+    <div className="min-h-screen bg-[#f8fafc] flex items-center justify-center">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="bg-white p-6 rounded-lg shadow-md w-full max-w-2xl"
+      >
+        <h1 className="text-2xl font-bold mb-4">Mentor Profile</h1>
 
-        <main className="container mx-auto px-4 -mt-25">
-          {/* Profile Card */}
-          <div className="bg-white border-3 border-black p-6 rounded-lg shadow-[5px_5px_0px_0px_rgba(0,0,0,0.8)] mb-8">
-            <div className="flex flex-col md:flex-row gap-6 items-center">
-              <div className="relative">
-                <div className="w-48 h-40 bg-white] border-3 border-black rounded-lg overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,0.8)] m-8">
-                  <Image
-                    src="/placeholder.svg?height=300&width=300"
-                    alt="Mentor Profile"
-                    width={300}
-                    height={300}
-                    className="object-cover w-full h-full"
-                  />
-                </div>
-                <div className="absolute -bottom-2 -right-2 bg-[#f4eced] border-2 border-black rounded-full p-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)]">
-                  <Badge className="bg-white text-black font-bold border-2 border-black">PRO MENTOR</Badge>
-                </div>
-              </div>
+        {/* Full Name */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-1">Full Name</label>
+          <Input
+            type="text"
+            {...register("fullName")}
+            placeholder="Enter your full name"
+            disabled={loading}
+          />
+          {errors.fullName && (
+            <p className="text-red-500 text-sm mt-1">{errors.fullName.message}</p>
+          )}
+        </div>
 
-              <div className="flex-1 text-center md:text-left">
-                <h1 className="text-4xl md:text-5xl font-bold mb-2">Sarah Johnson</h1>
-                <div className="flex flex-wrap gap-2 justify-center md:justify-start mb-3">
-                  <Badge className="bg-[#f43f5e] text-white font-semibold border border-black">
-                    Full Stack Developer
-                  </Badge>
-                  <Badge className="bg-[#f43f5e] text-white font-semibold border border-black">UI/UX Designer</Badge>
-                  <Badge className="bg-[#f43f5e] text-white font-semibold border border-black">Tech Lead</Badge>
-                </div>
-                <p className="text-lg mb-4">
-                  Passionate about building beautiful, functional web applications and mentoring the next generation of
-                  developers.
-                </p>
-                <div className="flex flex-wrap gap-3 justify-center md:justify-start">
-                  <Button className="bg-white text-black font-semibold border-2 border-black rounded shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] hover:translate-y-0.5 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] transition-all">
-                    Book a Session
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="bg-white text-black font-semibold border-2 border-black rounded shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] hover:translate-y-0.5 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] transition-all"
-                  >
-                    View Resume
-                  </Button>
-                </div>
-              </div>
+        {/* Professional Title */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-1">Professional Title</label>
+          <Input
+            type="text"
+            {...register("professionalTitle")}
+            placeholder="Enter your professional title"
+            disabled={loading}
+          />
+          {errors.professionalTitle && (
+            <p className="text-red-500 text-sm mt-1">{errors.professionalTitle.message}</p>
+          )}
+        </div>
+
+        {/* Location */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-1">Location</label>
+          <Input
+            type="text"
+            {...register("location")}
+            placeholder="Enter your location"
+            disabled={loading}
+          />
+        </div>
+
+        {/* Bio */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-1">Bio</label>
+          <textarea
+            {...register("bio")}
+            placeholder="Enter your bio"
+            className="w-full border rounded p-2"
+            disabled={loading}
+          />
+          {errors.bio && (
+            <p className="text-red-500 text-sm mt-1">{errors.bio.message}</p>
+          )}
+        </div>
+
+        {/* Social Links */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-1">Email</label>
+          <Input
+            type="email"
+            {...register("socialLinks.email")}
+            placeholder="Enter your email"
+            disabled={loading}
+          />
+          {errors.socialLinks?.email && (
+            <p className="text-red-500 text-sm mt-1">{errors.socialLinks.email.message}</p>
+          )}
+        </div>
+
+        {/* Experiences */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-1">Experiences</label>
+          {experienceFields.map((field, index) => (
+            <div key={field.id} className="mb-2">
+              <Input
+                type="text"
+                {...register(`experiences.${index}.title`)}
+                placeholder="Title"
+                className="mb-1"
+              />
+              <Input
+                type="text"
+                {...register(`experiences.${index}.company`)}
+                placeholder="Company"
+                className="mb-1"
+              />
+              <Input
+                type="text"
+                {...register(`experiences.${index}.startDate`)}
+                placeholder="Start Date"
+                className="mb-1"
+              />
+              <Input
+                type="text"
+                {...register(`experiences.${index}.endDate`)}
+                placeholder="End Date"
+                className="mb-1"
+              />
+              <textarea
+                {...register(`experiences.${index}.description`)}
+                placeholder="Description"
+                className="w-full border rounded p-2"
+              />
             </div>
-          </div>
+          ))}
+          <Button
+            type="button"
+            onClick={() => addExperience({ title: "", company: "", startDate: "" })}
+            className="mt-2 bg-blue-500 text-white px-4 py-2 rounded"
+          >
+            Add Experience
+          </Button>
+        </div>
 
-          {/* Social Links */}
-          <div className="flex flex-wrap justify-center gap-4 mb-10">
-            <a
-              href="#"
-              className="flex items-center gap-2 bg-white text-black font-semibold px-4 py-2 border-2 border-black rounded shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] hover:translate-y-0.5 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] transition-all"
-            >
-              <Github className="w-5 h-5" />
-              <span>GitHub</span>
-            </a>
-            <a
-              href="#"
-              className="flex items-center gap-2 bg-white text-black font-semibold px-4 py-2 border-2 border-black rounded shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] hover:translate-y-0.5 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] transition-all"
-            >
-              <Linkedin className="w-5 h-5" />
-              <span>LinkedIn</span>
-            </a>
-            <a
-              href="#"
-              className="flex items-center gap-2 bg-white text-black font-semibold px-4 py-2 border-2 border-black rounded shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] hover:translate-y-0.5 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] transition-all"
-            >
-              <Twitter className="w-5 h-5" />
-              <span>Twitter</span>
-            </a>
-            <a
-              href="#"
-              className="flex items-center gap-2 bg-white text-black font-semibold px-4 py-2 border-2 border-black rounded shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] hover:translate-y-0.5 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] transition-all"
-            >
-              <Mail className="w-5 h-5" />
-              <span>Email</span>
-            </a>
-            <a
-              href="#"
-              className="flex items-center gap-2 bg-[#f43f5e] text-white font-semibold px-4 py-2 border-2 border-black rounded shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] hover:translate-y-0.5 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] transition-all"
-            >
-              <MapPin className="w-5 h-5" />
-              <span>San Francisco, CA</span>
-            </a>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
-            {/* Current Position */}
-            <div className="bg-white border-3 border-black p-6 rounded-lg shadow-[5px_5px_0px_0px_rgba(0,0,0,0.8)]">
-              <h2 className="text-2xl font-bold mb-4 border-b-3 border-black pb-2 text-black">Current Position</h2>
-              <div className="mb-4 text-black">
-                <h3 className="text-xl font-bold">Senior Frontend Developer</h3>
-                <p className="text-lg font-semibold">TechGiant Inc.</p>
-                <p className="italic">2020 - Present</p>
-                <p className="mt-2">
-                  Leading a team of 5 developers to build and maintain the company's flagship product. Responsible for
-                  architecture decisions and mentoring junior developers.
-                </p>
-              </div>
-              <div className="text-black">
-                <h3 className="text-xl font-bold">Tech Lead</h3>
-                <p className="text-lg font-semibold">InnovateCorp</p>
-                <p className="italic">2018 - 2020</p>
-                <p className="mt-2">
-                  Managed the development of a customer-facing application with over 100,000 monthly active users.
-                  Implemented CI/CD pipelines and improved performance by 40%.
-                </p>
-              </div>
+        {/* Educations */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-1">Educations</label>
+          {educationFields.map((field, index) => (
+            <div key={field.id} className="mb-2">
+              <Input
+                type="text"
+                {...register(`educations.${index}.degree`)}
+                placeholder="Degree"
+                className="mb-1"
+              />
+              <Input
+                type="text"
+                {...register(`educations.${index}.institution`)}
+                placeholder="Institution"
+                className="mb-1"
+              />
+              <Input
+                type="text"
+                {...register(`educations.${index}.startDate`)}
+                placeholder="Start Date"
+                className="mb-1"
+              />
+              <Input
+                type="text"
+                {...register(`educations.${index}.endDate`)}
+                placeholder="End Date"
+                className="mb-1"
+              />
+              <textarea
+                {...register(`educations.${index}.description`)}
+                placeholder="Description"
+                className="w-full border rounded p-2"
+              />
             </div>
+          ))}
+          <Button
+            type="button"
+            onClick={() => addEducation({ degree: "", institution: "", startDate: "" })}
+            className="mt-2 bg-blue-500 text-white px-4 py-2 rounded"
+          >
+            Add Education
+          </Button>
+        </div>
 
-            {/* Education */}
-            <div className="bg-white border-3 border-black p-6 rounded-lg shadow-[5px_5px_0px_0px_rgba(0,0,0,0.8)]">
-              <h2 className="text-2xl font-bold mb-4 border-b-3 border-black pb-2 text-black">Education</h2>
-              <div className="mb-4 text-black">
-                <h3 className="text-xl font-bold">Master of Computer Science</h3>
-                <p className="text-lg font-semibold">Stanford University</p>
-                <p className="italic">2016 - 2018</p>
-                <p className="mt-2">
-                  Specialized in Human-Computer Interaction and Machine Learning. Thesis: "Improving User Experience
-                  Through Predictive Algorithms"
-                </p>
-              </div>
-              <div className="text-black">
-                <h3 className="text-xl font-bold">Bachelor of Science in Computer Engineering</h3>
-                <p className="text-lg font-semibold">MIT</p>
-                <p className="italic">2012 - 2016</p>
-                <p className="mt-2">
-                  Graduated with honors. Active member of the Web Development Club and AI Research Group.
-                </p>
-              </div>
-            </div>
-          </div>
+        {/* Submit Button */}
+        <Button type="submit" className="w-full bg-[#9f1239] text-white" disabled={loading}>
+          {loading ? "Submitting..." : "Submit"}
+        </Button>
+      </form>
+    </div>
+  );
+};
 
-          {/* Tech Stack */}
-          <div className="bg-white border-3 border-black p-6 rounded-lg shadow-[5px_5px_0px_0px_rgba(0,0,0,0.8)] mb-10">
-            <h2 className="text-2xl font-bold mb-4 border-b-3 border-black pb-2">Tech Stack</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="bg-white border-2 border-black p-4 rounded shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] text-center">
-                <h3 className="font-bold text-lg text-white">Frontend</h3>
-                <div className="flex flex-wrap gap-2 justify-center mt-2">
-                  <Badge className="bg-white text-black border border-black">React</Badge>
-                  <Badge className="bg-white text-black border border-black">Next.js</Badge>
-                  <Badge className="bg-white text-black border border-black">TypeScript</Badge>
-                  <Badge className="bg-white text-black border border-black">Tailwind</Badge>
-                </div>
-              </div>
-              <div className="bg-white border-2 border-black p-4 rounded shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] text-center">
-                <h3 className="font-bold text-lg text-white">Backend</h3>
-                <div className="flex flex-wrap gap-2 justify-center mt-2">
-                  <Badge className="bg-white text-black border border-black">Node.js</Badge>
-                  <Badge className="bg-white text-black border border-black">Express</Badge>
-                  <Badge className="bg-white text-black border border-black">Python</Badge>
-                  <Badge className="bg-white text-black border border-black">Django</Badge>
-                </div>
-              </div>
-              <div className="bg-white border-2 border-black p-4 rounded shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] text-center">
-                <h3 className="font-bold text-lg text-white">Database</h3>
-                <div className="flex flex-wrap gap-2 justify-center mt-2">
-                  <Badge className="bg-white text-black border border-black">MongoDB</Badge>
-                  <Badge className="bg-white text-black border border-black">PostgreSQL</Badge>
-                  <Badge className="bg-white text-black border border-black">Firebase</Badge>
-                  <Badge className="bg-white text-black border border-black">Redis</Badge>
-                </div>
-              </div>
-              <div className="bg-white border-2 border-black p-4 rounded shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] text-center">
-                <h3 className="font-bold text-lg text-white">DevOps</h3>
-                <div className="flex flex-wrap gap-2 justify-center mt-2">
-                  <Badge className="bg-white text-black border border-black">Docker</Badge>
-                  <Badge className="bg-white text-black border border-black">AWS</Badge>
-                  <Badge className="bg-white text-black border border-black">CI/CD</Badge>
-                  <Badge className="bg-white text-black border border-black">Vercel</Badge>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Mentorship Areas */}
-          <div className="bg-white border-3 border-black p-6 rounded-lg shadow-[5px_5px_0px_0px_rgba(0,0,0,0.8)] mb-10">
-            <h2 className="text-2xl font-bold mb-4 border-b-3 border-black pb-2 text-white">Mentorship Areas</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-white border-2 border-black p-4 rounded shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)]">
-                <h3 className="font-bold text-xl mb-2">Career Development</h3>
-                <ul className="list-disc pl-5 space-y-1">
-                  <li>Resume & Portfolio Review</li>
-                  <li>Interview Preparation</li>
-                  <li>Career Transition Strategies</li>
-                  <li>Salary Negotiation</li>
-                </ul>
-              </div>
-              <div className="bg-white border-2 border-black p-4 rounded shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)]">
-                <h3 className="font-bold text-xl mb-2">Technical Skills</h3>
-                <ul className="list-disc pl-5 space-y-1">
-                  <li>Frontend Architecture</li>
-                  <li>React & Next.js Best Practices</li>
-                  <li>Performance Optimization</li>
-                  <li>Responsive Design</li>
-                </ul>
-              </div>
-              <div className="bg-white border-2 border-black p-4 rounded shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)]">
-                <h3 className="font-bold text-xl mb-2">Project Guidance</h3>
-                <ul className="list-disc pl-5 space-y-1">
-                  <li>Code Reviews</li>
-                  <li>Architecture Planning</li>
-                  <li>Technical Decision Making</li>
-                  <li>Project Management</li>
-                </ul>
-              </div>
-              <div className="bg-white border-2 border-black p-4 rounded shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)]">
-                <h3 className="font-bold text-xl mb-2">Soft Skills</h3>
-                <ul className="list-disc pl-5 space-y-1">
-                  <li>Communication</li>
-                  <li>Team Leadership</li>
-                  <li>Time Management</li>
-                  <li>Work-Life Balance</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          {/* Testimonials */}
-          <div className="bg-white border-3 border-black p-6 rounded-lg shadow-[5px_5px_0px_0px_rgba(0,0,0,0.8)] mb-10">
-            <h2 className="text-2xl font-bold mb-6 border-b-3 border-black pb-2 text-white">Testimonials</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-white border-2 border-black p-4 rounded shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)]">
-                <p className="italic mb-4">
-                  "Sarah's guidance was instrumental in helping me land my first developer job. Her technical expertise
-                  and career advice were exactly what I needed!"
-                </p>
-                <p className="font-bold">- Alex Chen, Junior Developer</p>
-              </div>
-              <div className="bg-white border-2 border-black p-4 rounded shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)]">
-                <p className="italic mb-4">
-                  "Working with Sarah helped me understand complex React concepts that I had been struggling with for
-                  months. She has a gift for explaining difficult topics in simple terms."
-                </p>
-                <p className="font-bold">- Jamie Rodriguez, Frontend Developer</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Contact Form */}
-          <div className="bg-white border-3 border-black p-6 rounded-lg shadow-[5px_5px_0px_0px_rgba(0,0,0,0.8)] mb-10">
-            <h2 className="text-2xl font-bold mb-4 border-b-3 border-black pb-2">Get in Touch</h2>
-            <form className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block font-bold mb-1">Name</label>
-                  <input
-                    type="text"
-                    className="w-full p-2 border-2 border-black rounded focus:outline-none focus:ring-2 focus:ring-[#be123c]"
-                    placeholder="Your name"
-                  />
-                </div>
-                <div>
-                  <label className="block font-bold mb-1">Email</label>
-                  <input
-                    type="email"
-                    className="w-full p-2 border-2 border-black rounded focus:outline-none focus:ring-2 focus:ring-[#be123c]"
-                    placeholder="Your email"
-                  />
-                </div>
-              </div>
-              <div>
-                <label className="block font-bold mb-1">Subject</label>
-                <input
-                  type="text"
-                  className="w-full p-2 border-2 border-black rounded focus:outline-none focus:ring-2 focus:ring-[#be123c]"
-                  placeholder="What do you want to discuss?"
-                />
-              </div>
-              <div>
-                <label className="block font-bold mb-1">Message</label>
-                <textarea
-                  className="w-full p-2 border-2 border-black rounded focus:outline-none focus:ring-2 focus:ring-[#be123c] h-32"
-                  placeholder="Tell me more about what you need help with..."
-                ></textarea>
-              </div>
-              <Button className="bg-[#be123c] text-white font-semibold border-2 border-black rounded shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] hover:translate-y-0.5 hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,0.8)] transition-all">
-                Send Message
-              </Button>
-            </form>
-          </div>
-        </main>
-
-        <footer className="bg-black text-white py-6 mt-12">
-          <div className="container mx-auto px-4 text-center">
-            <p className="font-bold">© {new Date().getFullYear()} Mentor Profile</p>
-            <p className="mt-2">Connect, learn, and grow with tech professionals worldwide</p>
-          </div>
-        </footer>
-      </div>
-    </ThemeProvider>
-  )
-}
-
+export default MentorPage;
